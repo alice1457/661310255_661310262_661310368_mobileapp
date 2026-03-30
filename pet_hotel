@@ -1,0 +1,200 @@
+/*M!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19-11.7.2-MariaDB, for Win64 (AMD64)
+--
+-- Host: 192.168.100.55    Database: pet_hotel
+-- ------------------------------------------------------
+-- Server version	11.8.5-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
+
+--
+-- Table structure for table `bookings`
+--
+
+DROP TABLE IF EXISTS `bookings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bookings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `pet_id` int(11) NOT NULL,
+  `check_in` date NOT NULL,
+  `check_out` date NOT NULL,
+  `note` text DEFAULT NULL,
+  `status` enum('pending','approved','rejected','staying','completed') NOT NULL DEFAULT 'pending',
+  `total_price` decimal(10,2) DEFAULT NULL,
+  `payment_slip` text DEFAULT NULL,
+  `payment_status` enum('unpaid','paid') NOT NULL DEFAULT 'unpaid',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `pet_id` (`pet_id`),
+  CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`pet_id`) REFERENCES `pets` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bookings`
+--
+
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+INSERT INTO `bookings` VALUES
+(27,2,4,'2026-03-27','2026-03-28',NULL,'completed',500.00,'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1xw:0.74975xh;0,0.190xh','paid','2026-03-27 03:17:44'),
+(28,2,4,'2026-03-27','2026-03-27',NULL,'completed',500.00,'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1xw:0.74975xh;0,0.190xh','paid','2026-03-27 04:30:47'),
+(29,2,4,'2026-03-27','2026-03-27',NULL,'completed',500.00,'https://ichef.bbci.co.uk/news/1024/cpsprodpb/1a58/live/d50b4240-eb19-11f0-992c-75363ad17690.jpg.webp','paid','2026-03-27 04:49:24'),
+(30,2,4,'2026-03-30','2026-03-30',NULL,'completed',500.00,'https://cdn.outsideonline.com/wp-content/uploads/2023/03/Funny_Dog_S.jpg','paid','2026-03-30 10:15:33'),
+(31,2,4,'2026-03-30','2026-03-30',NULL,'completed',500.00,NULL,'unpaid','2026-03-30 10:56:28'),
+(32,2,4,'2026-03-30','2026-03-30',NULL,'staying',500.00,'https://cdn.outsideonline.com/wp-content/uploads/2023/03/Funny_Dog_S.jpg','paid','2026-03-30 11:14:39');
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pet_records`
+--
+
+DROP TABLE IF EXISTS `pet_records`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pet_records` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pet_id` int(11) DEFAULT NULL,
+  `record_type` varchar(20) DEFAULT NULL,
+  `title` varchar(150) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `record_date` date DEFAULT NULL,
+  `record_image` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pet_records`
+--
+
+LOCK TABLES `pet_records` WRITE;
+/*!40000 ALTER TABLE `pet_records` DISABLE KEYS */;
+INSERT INTO `pet_records` VALUES
+(5,4,'health','มาฉีดวัคซีน','สุขภาพดี','2026-03-27','https://www.nylabone.com/-/media/project/oneweb/nylabone/images/dog101/10-intelligent-dog-breeds/golden-retriever-tongue-out.jpg?h=430&w=710&hash=7FEB820D235A44B76B271060E03572C7'),
+(6,4,'grooming','ตัดขน','พามาดูแลความสวย','2026-03-27','https://www.nylabone.com/-/media/project/oneweb/nylabone/images/dog101/10-intelligent-dog-breeds/golden-retriever-tongue-out.jpg?h=430&w=710&hash=7FEB820D235A44B76B271060E03572C7'),
+(7,4,'health','ตรวจร่างกาย','เช็คความแข็งแรง','2026-03-30','https://cdn.shopify.com/s/files/1/0086/0795/7054/files/Golden-Retriever.jpg?v=1645179525');
+/*!40000 ALTER TABLE `pet_records` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pet_vaccines`
+--
+
+DROP TABLE IF EXISTS `pet_vaccines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pet_vaccines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pet_id` int(11) NOT NULL,
+  `vaccine_name` varchar(100) NOT NULL,
+  `dose` varchar(50) DEFAULT NULL,
+  `vaccine_date` date DEFAULT NULL,
+  `next_due` date DEFAULT NULL,
+  `clinic` varchar(150) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `pet_id` (`pet_id`),
+  CONSTRAINT `pet_vaccines_ibfk_1` FOREIGN KEY (`pet_id`) REFERENCES `pets` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pet_vaccines`
+--
+
+LOCK TABLES `pet_vaccines` WRITE;
+/*!40000 ALTER TABLE `pet_vaccines` DISABLE KEYS */;
+INSERT INTO `pet_vaccines` VALUES
+(1,4,'DHPP','1','2026-03-27','2027-03-27','กลมชล',NULL,'2026-03-27 04:20:07');
+/*!40000 ALTER TABLE `pet_vaccines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pets`
+--
+
+DROP TABLE IF EXISTS `pets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `image_url` text DEFAULT NULL,
+  `vaccine` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pets`
+--
+
+LOCK TABLES `pets` WRITE;
+/*!40000 ALTER TABLE `pets` DISABLE KEYS */;
+INSERT INTO `pets` VALUES
+(4,2,'Nick','dog',4,'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1xw:0.74975xh;0,0.190xh','DHPP');
+/*!40000 ALTER TABLE `pets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(100) DEFAULT 'user',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES
+(1,'admin','a@gmail.com','1234','admin'),
+(2,'time','t@gmail.com','5678','user');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'pet_hotel'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
+
+-- Dump completed on 2026-03-30 18:24:46

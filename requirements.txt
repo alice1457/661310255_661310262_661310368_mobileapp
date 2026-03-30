@@ -1,0 +1,18 @@
+# ─────────────────────────────────────────
+# Pet Hotel — Python Dependencies
+# Python 3.12+ required
+# ─────────────────────────────────────────
+
+# ── Backend (main.py + db_connection.py) ──
+fastapi              # Web framework สำหรับ REST API
+uvicorn[standard]    # ASGI server ใช้รัน FastAPI  →  uvicorn main:app --reload
+mysql-connector-python  # เชื่อมต่อ MariaDB / MySQL
+
+# ── Mobile App (mobile_app.py) ────────────
+flet                 # UI Framework สำหรับ mobile app
+requests             # HTTP client เรียก API
+
+# ─────────────────────────────────────────
+# วิธีติดตั้งทั้งหมดในครั้งเดียว:
+#   pip install -r requirements.txt
+# ─────────────────────────────────────────
